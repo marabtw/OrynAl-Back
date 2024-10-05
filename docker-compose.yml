@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  orynal_app:
+    container_name: orynal_app
+    hostname: orynal_app
+    build: .
+    ports:
+      - "5000:5000"
+    depends_on:
+      orynal_pg:
+        condition: service_healthy
+
+  orynal_pg:
+    image: postgres:15.3-alpine
+    container_name: orynal_pg
+    hostname: orynal_pg
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=orynal_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGUSER=review_test
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - ./.dev/pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pg_data:
+

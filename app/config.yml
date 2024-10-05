@@ -1,0 +1,15 @@
+HttpServer:
+  Port: 5000
+  ShutdownTimeout: 2s
+
+Database:
+  Host: 'orynal_pg'
+  Port: 5432
+  Database: "orynal_db"
+  Username: "postgres"
+  Password: "postgres"
+  SslMode: "disable"
+
+Auth:
+  PasswordSecretKey: "qwerty"
+  JwtSecretKey: "qwerty"
